@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.API", "Authe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Common", "Core\Authentication.Common\Authentication.Common.csproj", "{72EDAA3F-C0F9-4573-859E-B63099CC0D63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Core.Common", "Core\Authentication.Core.Common\Authentication.Core.Common.csproj", "{72EDAA3F-C0F9-4573-859E-B63099CC0D63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Core.Commands", "Core\Authentication.Core.Commands\Authentication.Core.Commands.csproj", "{EE325594-5B10-4693-8161-74527E36137C}"
 EndProject

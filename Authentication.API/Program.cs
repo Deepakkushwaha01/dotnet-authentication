@@ -24,6 +24,7 @@ namespace Authentication.API
             builder.Services.AddControllers();
             builder.Services
             .RegisterSwagger(builder.Configuration)
+            .RegisterMediatR()
             .RegisterVersioning();
 
             return builder.Build();
