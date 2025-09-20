@@ -18,4 +18,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+  <ProjectReference Include="..\Core\Authentication.Core.Common\Authentication.Core.Common.csproj" />
+  <ProjectReference Include="..\Core\Authentication.Core.Commands\Authentication.Core.Commands.csproj" />
+    <ProjectReference Include="..\Core\Authentication.Core.Queries\Authentication.Core.Queries.csproj" />
+  </ItemGroup>
+
 </Project>

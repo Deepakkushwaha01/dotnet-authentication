@@ -1,3 +1,5 @@
+using Authentication.Common.Mediatr.Commands.Abstractions;
+using Authentication.Core.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.API.Controllers;
@@ -13,9 +15,12 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    private readonly ICommandDispatcher _commandDispatcher;
+
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ICommandDispatcher commandDispatcher)
     {
         _logger = logger;
+        _commandDispatcher = commandDispatcher;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -29,4 +34,11 @@ public class WeatherForecastController : ControllerBase
         })
         .ToArray();
     }
+
+    [HttpGet("dss")]
+    public async Task<IActionResult> GetOIntent()
+    {
+        return Ok(await _commandDispatcher.ExecuteAsync(new GetOAuthIntentCommand()));
+    }
+
 }
