@@ -10,7 +10,7 @@ namespace Authentication.API.Registers
         public static IServiceCollection RegisterDatabase(this IServiceCollection services, IConfiguration config)
         {
             ConnectionStringSettings configurations = new(config);
-            services.AddDbContext<AuthenticationIdentity>(options =>
+            services.AddDbContext<IAuthenticationIdentity, AuthenticationIdentity>(options =>
                 options.UseNpgsql(configurations.AuthenticationIdentityDbConnectionString));
 
             services.RegisterIdentity();
@@ -27,7 +27,7 @@ namespace Authentication.API.Registers
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 8;
             })
             .AddRoles<Microsoft.AspNetCore.Identity.IdentityRole>()
             .AddEntityFrameworkStores<AuthenticationIdentity>()

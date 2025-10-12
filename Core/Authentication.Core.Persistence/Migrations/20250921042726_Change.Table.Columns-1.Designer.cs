@@ -3,6 +3,7 @@ using System;
 using Authentication.Core.Persistence.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Authentication.Core.Persistence.Migrations
 {
     [DbContext(typeof(AuthenticationIdentity))]
-    partial class AuthenticationIdentityModelSnapshot : ModelSnapshot
+    [Migration("20250921042726_Change.Table.Columns-1")]
+    partial class ChangeTableColumns1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Authentication.Core.Persistence.Users.Entity.Users", b =>
+            modelBuilder.Entity("Authentication.Core.Persistence.Database.Entity.Users", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar")
@@ -38,14 +41,6 @@ namespace Authentication.Core.Persistence.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text")
                         .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("DeletedOn");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -117,10 +112,6 @@ namespace Authentication.Core.Persistence.Migrations
                         .HasColumnType("bool")
                         .HasDefaultValue(false)
                         .HasColumnName("TwoFactorEnabled");
-
-                    b.Property<Guid>("Uid")
-                        .HasColumnType("uuid")
-                        .HasColumnName("Uid");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -286,7 +277,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Authentication.Core.Persistence.Users.Entity.Users", null)
+                    b.HasOne("Authentication.Core.Persistence.Database.Entity.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -295,7 +286,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Authentication.Core.Persistence.Users.Entity.Users", null)
+                    b.HasOne("Authentication.Core.Persistence.Database.Entity.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -310,7 +301,7 @@ namespace Authentication.Core.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Authentication.Core.Persistence.Users.Entity.Users", null)
+                    b.HasOne("Authentication.Core.Persistence.Database.Entity.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -319,7 +310,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Authentication.Core.Persistence.Users.Entity.Users", null)
+                    b.HasOne("Authentication.Core.Persistence.Database.Entity.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -8,6 +8,9 @@
 
     <ItemGroup>
   <ProjectReference Include="..\Authentication.Core.Common\Authentication.Core.Common.csproj" />
+  <ProjectReference Include="..\Authentication.Core.Contracts\Authentication.Core.Contracts.csproj" />
+  <ProjectReference Include="..\Authentication.Core.Domains\Authentication.Core.Domains.csproj" />
+    <ProjectReference Include="..\Authentication.Core.Persistence\Authentication.Core.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

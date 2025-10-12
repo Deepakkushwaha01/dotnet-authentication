@@ -3,6 +3,7 @@ using System;
 using Authentication.Core.Persistence.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Authentication.Core.Persistence.Migrations
 {
     [DbContext(typeof(AuthenticationIdentity))]
-    partial class AuthenticationIdentityModelSnapshot : ModelSnapshot
+    [Migration("20250921062402_Change.Table.Columns-2")]
+    partial class ChangeTableColumns2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
