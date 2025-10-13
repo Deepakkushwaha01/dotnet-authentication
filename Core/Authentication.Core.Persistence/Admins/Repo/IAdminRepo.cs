@@ -5,6 +5,6 @@ namespace Authentication.Core.Persistence.Admin.Repo
 
     public interface IAdminRepo
     {
-        Task<Result<User>> AddAdminAsync(User user);
+        Task<Result<AdminDomain>> AddAdminAsync(AdminDomain user);
     }
 }

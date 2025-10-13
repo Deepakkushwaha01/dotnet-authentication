@@ -10,16 +10,25 @@ namespace Authentication.API.Registers
         public static IServiceCollection RegisterDatabase(this IServiceCollection services, IConfiguration config)
         {
             ConnectionStringSettings configurations = new(config);
-            services.AddDbContext<IAuthenticationIdentity, AuthenticationIdentity>(options =>
-                options.UseNpgsql(configurations.AuthenticationIdentityDbConnectionString));
 
-            services.RegisterIdentity();
+            services.RegisterIdentity(configurations);
 
             return services;
         }
 
-        public static IServiceCollection RegisterIdentity(this IServiceCollection services)
+        public static IServiceCollection RegisterIdentity(this IServiceCollection services, ConnectionStringSettings configurations)
         {
+            services.AddScoped<IAuthenticationIdentity, AuthenticationIdentity>()
+            .AddDbContext<AuthenticationIdentity>(options =>
+            {
+                options.UseSqlServer(configurations.AuthenticationIdentityDbConnectionString, sqlServerOptionsAction: sqlOptions =>
+                {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(15),
+                            errorNumbersToAdd: null);
+                });
+            });
             services.AddDataProtection();
             services.AddIdentityCore<Microsoft.AspNetCore.Identity.IdentityUser>(options =>
             {

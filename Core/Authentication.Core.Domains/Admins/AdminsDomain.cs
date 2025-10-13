@@ -1,6 +1,6 @@
 namespace Authentication.Core.Domain.Users
 {
-    public class Admin
+    public class AdminDomain
     {
         // ---------------- Core Identity Fields ----------------
         public string Id { get; private set; }
@@ -34,7 +34,7 @@ namespace Authentication.Core.Domain.Users
         public string FullName => $"{FirstName} {LastName}";
 
         // ---------------- Factory Method ----------------
-        public static Admin Create(
+        public static AdminDomain Create(
             string email,
             string firstName,
             string lastName,
@@ -44,7 +44,7 @@ namespace Authentication.Core.Domain.Users
             bool isVerified = false,
             string businessAddress = "")
         {
-            var admin = new Admin
+            var admin = new AdminDomain
             {               
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
@@ -69,7 +69,7 @@ namespace Authentication.Core.Domain.Users
             return admin;
         }
 
-        public static Admin Create(
+        public static AdminDomain Create(
             string id,
             string email,
             string normalizedEmail,
@@ -86,7 +86,7 @@ namespace Authentication.Core.Domain.Users
             bool phoneNumberConfirmed,
             bool twoFactorEnabled)
         {
-            return new Admin
+            return new AdminDomain
             {
                 Id = id,
                 Email = email,
@@ -109,13 +109,5 @@ namespace Authentication.Core.Domain.Users
         // ---------------- Methods to modify state ----------------
         public void MarkEmailConfirmed() => EmailConfirmed = true;
 
-        public void UpdateName(string firstName, string lastName)
-        {
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
-                throw new ArgumentException("First and last name are required");
-
-            FirstName = firstName;
-            LastName = lastName;
-        }
     }
 }

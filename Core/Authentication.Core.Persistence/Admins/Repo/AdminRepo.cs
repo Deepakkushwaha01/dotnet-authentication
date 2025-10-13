@@ -5,24 +5,24 @@ namespace Authentication.Core.Persistence.Admin.Repo
 
     using Authentication.Core.Persistence.Database.Context;
     using Microsoft.EntityFrameworkCore;
-    using Authentication.Core.Persistence.Users.Entity;
     using Authentication.Common.Result;
-    using Authentication.Core.Domain.Users;
     using Authentication.Core.Persistence.Users.Factory;
+    using Authentication.Core.Persistence.Admins.Entity;
+    using Authentication.Core.Domain.Users;
 
     public class AdminRepo : IAdminRepo
     {
         public readonly IAuthenticationIdentity _authenticationIdentity;
 
-        public readonly DbSet<Users> _dbSet;
+        public readonly DbSet<AdminEntity> _dbSet;
 
         public AdminRepo(IAuthenticationIdentity authenticationIdentity)
         {
             _authenticationIdentity = authenticationIdentity;
-            _dbSet = _authenticationIdentity.Set<Users>();
+            _dbSet = _authenticationIdentity.Set<AdminEntity>();
         }
 
-        public async Task<Result<Admin>> AddAdminAsync(Admin admin)
+        public async Task<Result<AdminDomain>> AddAdminAsync(AdminDomain admin)
         {
             await _dbSet.AddAsync(admin.ToEntity());
 
