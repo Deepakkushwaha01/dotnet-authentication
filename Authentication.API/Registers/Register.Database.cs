@@ -1,5 +1,6 @@
 using Authentication.API.Settings;
 using Authentication.Core.Persistence.Database.Context;
+using Authentication.Core.Persistence.Identity.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +31,7 @@ namespace Authentication.API.Registers
                 });
             });
             services.AddDataProtection();
-            services.AddIdentityCore<Microsoft.AspNetCore.Identity.IdentityUser>(options =>
+            services.AddIdentityCore<IdentityEntity>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
@@ -38,7 +39,7 @@ namespace Authentication.API.Registers
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
             })
-            .AddRoles<Microsoft.AspNetCore.Identity.IdentityRole>()
+            .AddRoles<Microsoft.AspNetCore.Identity.IdentityRole<long>>()
             .AddEntityFrameworkStores<AuthenticationIdentity>()
             .AddDefaultTokenProviders();
 

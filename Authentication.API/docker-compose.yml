@@ -1,22 +1,21 @@
 services:
-  postgresdb:
-    container_name: system.postgres.db
-    image: postgres:16
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+    mssqldb:
+        container_name: system.mssql.db
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        healthcheck:
+            test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MST_PASSWORD} -Q 'SELECT 1'"]
+            interval: 10s
+            timeout: 10s
+            retries: 5
+            start_period: 30s
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=${MST_PASSWORD}
+            - MSSQL_PID=Developer
+        ports:
+            - "1433:1433"
+        volumes:
+            - mst-sql-data:/var/opt/mssql
 
 volumes:
-  postgres_data:
+  mst-sql-data:

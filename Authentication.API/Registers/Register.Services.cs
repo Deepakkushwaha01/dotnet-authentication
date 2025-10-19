@@ -1,4 +1,5 @@
-using Authentication.Core.Persistence.Admin.Repo;
+using Authentication.Core.Persistence.Database.Context;
+using Authentication.Core.Persistence.IdentityRepo.Repo;
 
 namespace Authentication.API.Registers;
 
@@ -9,9 +10,12 @@ public static partial class Register
         // Register application services here
         // services.AddScoped<IYourService, YourServiceImplementation>();
 
-        #region Admin Repositories For Dependency Injection
-        services.AddScoped<IAdminRepo, AdminRepo>();
+        #region identity Repositories For Dependency Injection
+        services.AddScoped<IIdentityRepo, IdentityRepo>();
         #endregion
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
         return services;
     }

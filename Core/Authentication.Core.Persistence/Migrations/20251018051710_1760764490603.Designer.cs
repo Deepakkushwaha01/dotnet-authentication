@@ -4,6 +4,7 @@ using Authentication.Core.Persistence.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authentication.Core.Persistence.Migrations
 {
     [DbContext(typeof(AuthenticationIdentity))]
-    partial class AuthenticationIdentityModelSnapshot : ModelSnapshot
+    [Migration("20251018051710_1760764490603")]
+    partial class _1760764490603
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Authentication.Core.Persistence.Identity.Entity.IdentityEntity", b =>
+            modelBuilder.Entity("Authentication.Core.Persistence.Admins.Entity.AdminEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,29 +208,6 @@ namespace Authentication.Core.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            ConcurrencyStamp = "81b05e6a-f421-4f3a-ad26-d80bdf9d4761",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            ConcurrencyStamp = "af086f29-8bec-41b8-a6dc-62c518dffc9f",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            ConcurrencyStamp = "3a9807b7-b708-4bb2-a08d-7418e31c4c46",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -344,7 +324,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
-                    b.HasOne("Authentication.Core.Persistence.Identity.Entity.IdentityEntity", null)
+                    b.HasOne("Authentication.Core.Persistence.Admins.Entity.AdminEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -353,7 +333,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("Authentication.Core.Persistence.Identity.Entity.IdentityEntity", null)
+                    b.HasOne("Authentication.Core.Persistence.Admins.Entity.AdminEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -368,7 +348,7 @@ namespace Authentication.Core.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Authentication.Core.Persistence.Identity.Entity.IdentityEntity", null)
+                    b.HasOne("Authentication.Core.Persistence.Admins.Entity.AdminEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -377,7 +357,7 @@ namespace Authentication.Core.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("Authentication.Core.Persistence.Identity.Entity.IdentityEntity", null)
+                    b.HasOne("Authentication.Core.Persistence.Admins.Entity.AdminEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

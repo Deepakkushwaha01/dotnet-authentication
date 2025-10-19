@@ -4,6 +4,7 @@ using Authentication.Core.Persistence.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authentication.Core.Persistence.Migrations
 {
     [DbContext(typeof(AuthenticationIdentity))]
-    partial class AuthenticationIdentityModelSnapshot : ModelSnapshot
+    [Migration("20251018123437_1760786181826")]
+    partial class _1760786181826
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,21 +213,21 @@ namespace Authentication.Core.Persistence.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "81b05e6a-f421-4f3a-ad26-d80bdf9d4761",
+                            ConcurrencyStamp = "88126a1a-733c-4682-97a8-7080e03b7a23",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2L,
-                            ConcurrencyStamp = "af086f29-8bec-41b8-a6dc-62c518dffc9f",
+                            ConcurrencyStamp = "4d201322-e89f-49f4-8034-f1132637776b",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
                             Id = 3L,
-                            ConcurrencyStamp = "3a9807b7-b708-4bb2-a08d-7418e31c4c46",
+                            ConcurrencyStamp = "b190316f-904b-4649-bf2d-3ebd267a583e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
