@@ -1,0 +1,21 @@
+services:
+    mssqldb:
+        container_name: system.mssql.db
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        healthcheck:
+            test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MST_PASSWORD} -Q 'SELECT 1'"]
+            interval: 10s
+            timeout: 10s
+            retries: 5
+            start_period: 30s
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=${MST_PASSWORD}
+            - MSSQL_PID=Developer
+        ports:
+            - "1433:1433"
+        volumes:
+            - mst-sql-data:/var/opt/mssql
+
+volumes:
+  mst-sql-data:

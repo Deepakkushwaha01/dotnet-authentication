@@ -25,7 +25,9 @@ namespace Authentication.API
             builder.Services
             .RegisterSwagger(builder.Configuration)
             .RegisterMediatR()
-            .RegisterVersioning();
+            .RegisterVersioning()
+            .RegisterServices(builder.Configuration)
+            .RegisterDatabase(builder.Configuration);
 
             return builder.Build();
         }
