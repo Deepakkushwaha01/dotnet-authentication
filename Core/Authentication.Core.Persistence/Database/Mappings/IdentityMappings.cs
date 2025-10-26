@@ -1,4 +1,7 @@
+using Authentication.Core.Persistence.Admins.Entity;
 using Authentication.Core.Persistence.Identity.Entity;
+using Authentication.Core.SharedKernel.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +12,7 @@ namespace Authentication.Core.Persistence.Database.Mappings
         public void Configure(EntityTypeBuilder<IdentityEntity> builder)
         {
             // ---------------- Table ----------------
-            builder.ToTable("Admins");
+            builder.ToTable(IdentityTable.Identity.ToString());
 
             // ---------------- Primary Key ----------------
             builder.HasKey(u => u.Id);
@@ -114,7 +117,7 @@ namespace Authentication.Core.Persistence.Database.Mappings
             builder.HasIndex(u => u.Uid).IsUnique();
 
             // ---------------- Relationships (optional, if using roles/claims) ----------------
-            // builder.HasMany<IdentityUserRole<string>>().WithOne().HasForeignKey(r => r.UserId).IsRequired();
+            builder.HasMany(x => x.UserRoles).WithOne().HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

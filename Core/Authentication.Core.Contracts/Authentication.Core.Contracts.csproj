@@ -6,4 +6,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <ItemGroup>
+      <ProjectReference Include="..\Authentication.Core.SharedKernel\Authentication.Core.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

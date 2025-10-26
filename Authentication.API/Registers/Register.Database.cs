@@ -31,7 +31,7 @@ namespace Authentication.API.Registers
                 });
             });
             services.AddDataProtection();
-            services.AddIdentityCore<IdentityEntity>(options =>
+            services.AddIdentity<IdentityEntity, IdentityRole<long>>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
@@ -39,7 +39,6 @@ namespace Authentication.API.Registers
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
             })
-            .AddRoles<Microsoft.AspNetCore.Identity.IdentityRole<long>>()
             .AddEntityFrameworkStores<AuthenticationIdentity>()
             .AddDefaultTokenProviders();
 

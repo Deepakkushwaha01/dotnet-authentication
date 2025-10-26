@@ -3,16 +3,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Authentication.Core.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class _1760764490603 : Migration
+    public partial class InitialIdentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admins",
+                name: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -41,31 +43,17 @@ namespace Authentication.Core.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("PK_Identity", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -87,9 +75,9 @@ namespace Authentication.Core.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_IdentityClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_IdentityClaims_Admins_UserId",
+                        name: "FK_IdentityClaims_Identity_UserId",
                         column: x => x.UserId,
-                        principalTable: "Admins",
+                        principalTable: "Identity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -107,9 +95,9 @@ namespace Authentication.Core.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_IdentityLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_IdentityLogins_Admins_UserId",
+                        name: "FK_IdentityLogins_Identity_UserId",
                         column: x => x.UserId,
-                        principalTable: "Admins",
+                        principalTable: "Identity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -121,39 +109,47 @@ namespace Authentication.Core.Persistence.Migrations
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TokenUid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiresOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_IdentityTokens_Admins_UserId",
+                        name: "FK_IdentityTokens_Identity_UserId",
                         column: x => x.UserId,
-                        principalTable: "Admins",
+                        principalTable: "Identity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityRoles",
+                name: "IdentityUserRoles",
                 columns: table => new
                 {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssignedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AssignedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true, defaultValue: ""),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     RoleId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_IdentityUserRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_IdentityRoles_Admins_UserId",
+                        name: "FK_IdentityUserRoles_Identity_UserId",
                         column: x => x.UserId,
-                        principalTable: "Admins",
+                        principalTable: "Identity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_IdentityRoles_AspNetRoles_RoleId",
+                        name: "FK_IdentityUserRoles_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -172,37 +168,41 @@ namespace Authentication.Core.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_RoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleClaims_AspNetRoles_RoleId",
+                        name: "FK_RoleClaims_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1L, "81b05e6a-f421-4f3a-ad26-d80bdf9d4761", "SuperAdmin", "SUPERADMIN" },
+                    { 2L, "af086f29-8bec-41b8-a6dc-62c518dffc9f", "Manager", "MANAGER" },
+                    { 3L, "3a9807b7-b708-4bb2-a08d-7418e31c4c46", "User", "USER" },
+                    { 4L, "0bbcf321-b5d5-44bb-a2f9-2f4df0b68254", "Admin", "ADMIN" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_NormalizedEmail",
-                table: "Admins",
+                table: "Identity",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Admins_Uid",
-                table: "Admins",
+                name: "IX_Identity_Uid",
+                table: "Identity",
                 column: "Uid",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "Admins",
+                table: "Identity",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdentityClaims_UserId",
@@ -215,14 +215,31 @@ namespace Authentication.Core.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IdentityRoles_RoleId",
-                table: "IdentityRoles",
+                name: "IX_AdminUserRoles_Id",
+                table: "IdentityUserRoles",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdminUserRoles_RoleId",
+                table: "IdentityUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdminUserRoles_UserId",
+                table: "IdentityUserRoles",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "Roles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
         }
 
         /// <inheritdoc />
@@ -235,22 +252,19 @@ namespace Authentication.Core.Persistence.Migrations
                 name: "IdentityLogins");
 
             migrationBuilder.DropTable(
-                name: "IdentityRoles");
+                name: "IdentityTokens");
 
             migrationBuilder.DropTable(
-                name: "IdentityTokens");
+                name: "IdentityUserRoles");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
+                name: "Identity");
+
+            migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Admins");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
         }
     }
 }
