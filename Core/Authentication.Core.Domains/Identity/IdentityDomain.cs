@@ -33,6 +33,8 @@ namespace Authentication.Core.Domain.Users
 
         public string FullName => $"{FirstName} {LastName}";
 
+        public List<IdentityUserRoleDomain> UserRoles { get; private set; } = new List<IdentityUserRoleDomain>();
+
         // ---------------- Factory Method ----------------
         public static IdentityDomain Create(
             string email,
@@ -40,12 +42,13 @@ namespace Authentication.Core.Domain.Users
             string lastName,
             string passwordHash,
             string phoneNumber = null,
-            byte adminLevel = 1,
+            byte adminLevel = 2,
             bool isVerified = false,
-            string businessAddress = "")
+            string businessAddress = "",
+            List<IdentityUserRoleDomain> UserRoles = null)
         {
             var identity = new IdentityDomain
-            {               
+            {
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
                 EmailConfirmed = false,
@@ -63,7 +66,8 @@ namespace Authentication.Core.Domain.Users
                 AccessFailedCount = 0,
                 LockoutEnabled = false,
                 PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false
+                TwoFactorEnabled = false,
+                UserRoles = UserRoles ?? new List<IdentityUserRoleDomain>()
             };
 
             return identity;
@@ -85,7 +89,8 @@ namespace Authentication.Core.Domain.Users
             int accessFailedCount,
             bool lockoutEnabled,
             bool phoneNumberConfirmed,
-            bool twoFactorEnabled)
+            bool twoFactorEnabled,
+            List<IdentityUserRoleDomain> UserRoles = null)
         {
             return new IdentityDomain
             {
@@ -104,7 +109,8 @@ namespace Authentication.Core.Domain.Users
                 AccessFailedCount = accessFailedCount,
                 LockoutEnabled = lockoutEnabled,
                 PhoneNumberConfirmed = phoneNumberConfirmed,
-                TwoFactorEnabled = twoFactorEnabled
+                TwoFactorEnabled = twoFactorEnabled,
+                UserRoles = UserRoles ?? new List<IdentityUserRoleDomain>()
             };
         }
 

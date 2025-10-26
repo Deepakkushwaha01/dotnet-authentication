@@ -52,7 +52,9 @@ namespace Authentication.Core.Persistence.Users.Factory
                 accessFailedCount: entity.AccessFailedCount,
                 lockoutEnabled: entity.LockoutEnabled,
                 phoneNumberConfirmed: entity.PhoneNumberConfirmed,
-                twoFactorEnabled: entity.TwoFactorEnabled
+                twoFactorEnabled: entity.TwoFactorEnabled,
+                UserRoles: entity.UserRoles?.Select(ur => ur.ToDomain()).ToList() ?? new List<IdentityUserRoleDomain>()
+
             );
         }
     }

@@ -1,3 +1,4 @@
+using Authentication.Core.Persistence.Admins.Entity;
 using Microsoft.AspNetCore.Identity;
 using System;
 
@@ -13,6 +14,8 @@ namespace Authentication.Core.Persistence.Identity.Entity
         public DateTime? UpdatedOn { get; private set; }
         public bool IsVerified { get; private set; } = false;
         public string BusinessAddress { get; private set; } = string.Empty;
+
+        public List<IdentityUserRoleEntity> UserRoles { get; private set; } = new List<IdentityUserRoleEntity>();
 
         // EF Core ke liye private constructor
         private IdentityEntity() { }

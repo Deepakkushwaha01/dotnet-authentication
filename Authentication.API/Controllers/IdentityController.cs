@@ -29,4 +29,18 @@ public class IdentityController : ControllerBase
 
         return Ok(result.Value);
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> loginUser([FromBody] LoginIdentityRequestDto request)
+    {
+        var result = await _commandDispatcher.ExecuteAsync(new LoginIdentityCommand(request));
+
+        if (!result.IsSuccess)
+        {
+            ObjectResult errorResponse = StatusCode(((int)result.HttpStatusCode), result.Message);
+            return errorResponse;
+        }
+
+        return Ok(result);
+    }
 }

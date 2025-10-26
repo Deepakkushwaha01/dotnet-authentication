@@ -1,5 +1,6 @@
 using Authentication.Core.Persistence.Database.Context;
 using Authentication.Core.Persistence.IdentityRepo.Repo;
+using Authentication.Core.Services.TokenService;
 
 namespace Authentication.API.Registers;
 
@@ -15,6 +16,8 @@ public static partial class Register
         #endregion
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<ITokenService, TokenService>();
 
 
         return services;

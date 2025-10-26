@@ -37,14 +37,7 @@ namespace Authentication.Core.Commands.Auth.Identity
                     return Result.FromError<IdentityResponseDto>(result);
                 }
 
-                return Result.Ok<IdentityResponseDto>(new IdentityResponseDto()
-                {
-                    Email = result.Value.Email,
-                    FirstName = result.Value.FirstName,
-                    LastName = result.Value.LastName,
-                    Uid = result.Value.Uid,
-                    CreatedAt = result.Value.CreatedOn
-                });
+                return result;
             }
             catch (System.Exception ex)
             {

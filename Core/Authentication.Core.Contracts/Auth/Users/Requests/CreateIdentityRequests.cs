@@ -8,9 +8,8 @@ namespace Authentication.API.DTOs
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "identity level is required.")]
-        [Range(1, 5, ErrorMessage = "identity level must be between 1 and 5.")]
-        public byte AdminLevel { get; set; } = 1;
+        [Range(0, 5, ErrorMessage = "identity level must be between 0 and 5.")]
+        public byte AdminLevel { get; set; } = 2;
 
         [StringLength(200, ErrorMessage = "Business address cannot exceed 200 characters.")]
         public string BusinessAddress { get; set; } = string.Empty;
